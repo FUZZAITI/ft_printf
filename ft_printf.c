@@ -159,6 +159,18 @@ int	ft_printf(const char *format, ...)
 	return (count);
 }
 
+void hexa(long int n,char *base,int div)
+{
+  char c;
+  int temp;
+  
+  temp = n % div;
+  c = base[temp];
+  if (n >= div)
+    hexa(n/div,base,div);
+  putchar(c);    
+}
+
 
 int	main(void)
 {
