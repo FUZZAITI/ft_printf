@@ -163,7 +163,13 @@ void hexa(long int n,char *base,int div)
 {
   char c;
   int temp;
-  
+
+  if (n < 0 && div == 10)
+  {
+    write (1, "-", 1);
+    count ++;
+    n = -n;
+  }
   temp = n % div;
   c = base[temp];
   if (n >= div)
