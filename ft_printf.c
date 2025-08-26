@@ -163,7 +163,9 @@ void hexa(long int n,char *base,int div)
 {
   char c;
   int temp;
+  int count;	
 
+  count = 0;	
   if (n < 0 && div == 10)
   {
     write (1, "-", 1);
@@ -176,7 +178,11 @@ void hexa(long int n,char *base,int div)
     hexa(n/div,base,div);
   putchar(c);    
 }
-
+void ft_printf(void *ptr)
+{
+  unsigned int test = ptr;
+  hexa(test,"0123456789abcdef", 16);
+}
 
 int	main(void)
 {
