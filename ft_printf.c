@@ -14,179 +14,99 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
+int    ft_putstr(char *c);
+static int    ft_putchar(char c);
 
 
-static int	count(long int n);
-static	void	build(long int num, char *ptr, int len);
-int	ft_putstr(char *c);
-
-
-void	*ft_memcpy(void *dst, const void *src, size_t n)
-{
-	unsigned char						*ptr;
-	const unsigned char					*ptrsrc;
-	size_t								i;
-
-	if (!dst && !src)
-		return (0);
-	ptr = (unsigned char *)dst;
-	ptrsrc = (const unsigned char *)src;
-	i = 0;
-	while (i < n)
-	{
-		ptr[i] = ptrsrc[i];
-		i++;
-	}
-	return (dst);
-}
-
-char	*ft_strdup(const char *s)
-{
-	char		*dup;
-	size_t		i;
-
-	i = strlen(s) + 1;
-	dup = malloc(i);
-	if (!dup)
-		return (0);
-	ft_memcpy(dup, s, i);
-	return (dup);
-}
-
-char	*ft_itoa(int n)
-{
-	int			neg;
-	int			len;
-	char		*ptr;
-	long int	num;
-
-	num = n;
-	neg = 0;
-	if (num == 0)
-		return (ft_strdup("0"));
-	if (num < 0)
-	{
-		neg = 1;
-		num = -num;
-	}
-	len = count(num) + neg;
-	ptr = malloc(len + 1);
-	if (!ptr)
-		return (0);
-	ptr[len] = '\0';
-	build(num, ptr, len);
-	if (neg)
-		ptr[0] = '-';
-	ft_putstr(ptr);
-}
-
-static int	count(long int n)
-{
-	int		i;
-
-	i = 0;
-	if (n == 0)
-		return (1);
-	while (n > 0)
-	{
-		n = n / 10;
-		i++;
-	}
-	return (i);
-}
-
-static	void	build(long int num, char *ptr, int len)
-{
-	while (num > 0)
-	{
-		ptr[--len] = (num % 10) + '0';
-		num = num / 10;
-	}
-}
-
-static int	ft_putchar(char c)
-{
-	return (write(1, &c, 1));
-	return (1);
-}
-
-int	ft_putstr(char *c)
-{
-	int		i;
-
-	i = 0;
-	while (c[i] != '\0')
-	{
-		write(1, &c[i], 1);
-		i++;
-	}
-	return (i);
-}
-
-int	ft_printf(const char *format, ...)
-{
-	va_list	args;
-	int		count;
-
-	count = 0;
-	va_start(args, format);
-	while (*format)
-	{
-		if (*format == '%')
-		{
-			format++;
-			if (*format == 'c')
-				ft_putchar(va_arg(args, int));
-			else if (*format == 's')
-				ft_putstr(va_arg(args, char *));
-			else if (*format == '%')
-				ft_putchar('%');
-			else if (*format == 'd')
-				ft_itoa(va_arg(args, int));
-			else if (*format == 'i')
-				ft_itoa(va_arg(args, int));							
-			else
-			{
-				ft_putchar('%');
-				format--;
-			}
-		}
-		else
-			ft_putchar(*format);
-		format++;
-	}
-	va_end(args);
-	return (count);
-}
-
-void hexa(long int n,char *base,int div)
+int hexa(long long int n,char *base,int div)
 {
   char c;
   int temp;
-  int count;	
-
-  count = 0;	
-  if (n < 0 && div == 10)
+  int count;
+  unsigned int hex;
+  
+  hex = n;
+  if (div == 16)
+    hex = (unsigned int)n;
+  count = 0;    
+  if (hex < 0)
   {
-    write (1, "-", 1);
+    if (div == 10)
+      write (1, "-", 1);
     count ++;
-    n = -n;
+    hex = -hex;
   }
-  temp = n % div;
+  temp = hex % div;
   c = base[temp];
-  if (n >= div)
-    hexa(n/div,base,div);
-  putchar(c);    
-}
-void ft_printf(void *ptr)
-{
-  unsigned int test = ptr;
-  hexa(test,"0123456789abcdef", 16);
+  if (hex >= div)
+    count += hexa(hex/div,base,div);
+  ft_putchar(c);
+  return(count);
 }
 
-int	main(void)
+int    ft_printf(const char *format, ...)
 {
-	ft_printf ("%s %s %s %%%% %d %i %d %i", "printou a string 1", "printou a string 2", "printou a string 3", -1, 2, 3, 4);
-	return (0);
+    va_list    args;
+    int        count;
+
+    count = 0;
+    va_start(args, format);
+    while (*format)
+    {
+        if (*format == '%')
+        {
+            format++;
+            if (*format == 'c')
+                count += ft_putchar(va_arg(args, int));
+            else if (*format == 's')
+                count += ft_putstr(va_arg(args, char *));
+            else if (*format == '%')
+                count += ft_putchar('%');
+            else if (*format == 'd')
+                count += hexa(va_arg(args, int),"0123456789",10);
+            else if (*format == 'i')
+                count += hexa(va_arg(args, int),"0123456789",10);
+            else if (*format == 'x')
+                count += hexa(va_arg(args, int),"0123456789abcdef",16);
+            else
+            {
+                ft_putchar('%');
+                format--;
+            }
+        }
+        else
+            count += ft_putchar(*format);
+        format++;
+    }
+    va_end(args);
+    return (count);
 }
 
+static int    ft_putchar(char c)
+{
+    return (write(1, &c, 1));
+    return (1);
+}
+
+int    ft_putstr(char *c)
+{
+    int        i;
+
+    i = 0;
+    while (c[i] != '\0')
+      i++;
+    write(1, c, i);
+    return (i);
+}
+
+
+
+int    main(void)
+{
+    int x = 0;
+    int y = 0;
+    
+    x = ft_printf("%s %d \n","oi", -2555);
+    y = printf("%s %i \n","oi", -2555);
+    return (0);
+}
