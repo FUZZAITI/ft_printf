@@ -14,8 +14,6 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
-int    ft_putstr(char *c);
-static int    ft_putchar(char c);
 
 int    ft_putstr(char *c)
 {
