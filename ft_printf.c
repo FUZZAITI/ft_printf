@@ -18,7 +18,11 @@
 int    ft_putstr(char *c)
 {
     int        i;
-
+    if (!s)
+    {
+       write(1,"(null)",6);
+           return (6);
+    }
     i = 0;
     while (c[i] != '\0')
       i++;
@@ -61,10 +65,29 @@ int putnbr_u_x_X(long int n, char *base, int div)
   return (count);
 }
 
-int    ft_printf(const char *format, ...)
+int ft_format(char c, va_list args)
 {
-    va_list    args;
-    int        count;
+    if (c == 'c')
+        return ft_putchar(va_arg(args, int));
+    else if (c == 's')
+        return ft_putstr(va_arg(args, char *));
+    else if (c == '%')
+        return ft_putchar('%');
+    else if (c == 'd' || c == 'i')
+        return putnbr_d_i(va_arg(args, int));
+    else if (c == 'x')
+        return hexa(va_arg(args, int), "0123456789abcdef", 16);
+    else if (c == 'X')
+        return hexa(va_arg(args, int), "0123456789ABCDEF", 16);
+    else if (c == 'u')
+        return hexa(va_arg(args, unsigned int), "0123456789", 10);
+    return (0);
+}
+
+int ft_printf(const char *format, ...)
+{
+    va_list args;
+    int count;
 
     count = 0;
     va_start(args, format);
@@ -73,23 +96,7 @@ int    ft_printf(const char *format, ...)
         if (*format == '%')
         {
             format++;
-            if (*format == 'c')
-                count += ft_putchar(va_arg(args, int));
-            else if (*format == 's')
-                count += ft_putstr(va_arg(args, char *));
-            else if (*format == '%')
-                count += ft_putchar('%');
-            else if (*format == 'd')
-                count += hexa(va_arg(args, int),"0123456789",10);
-            else if (*format == 'i')
-                count += hexa(va_arg(args, int),"0123456789",10);
-            else if (*format == 'x')
-                count += hexa(va_arg(args, int),"0123456789abcdef",16);
-            else
-            {
-                ft_putchar('%');
-                format--;
-            }
+            count += ft_format(*format, args);
         }
         else
             count += ft_putchar(*format);
