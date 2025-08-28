@@ -17,6 +17,22 @@
 int    ft_putstr(char *c);
 static int    ft_putchar(char c);
 
+int    ft_putstr(char *c)
+{
+    int        i;
+
+    i = 0;
+    while (c[i] != '\0')
+      i++;
+    write(1, c, i);
+    return (i);
+}
+
+static int    ft_putchar(char c)
+{
+    return (write(1, &c, 1));
+    return (1);
+}
 
 int putnbr_hexa(long int n, char *base, int div)
 { 
@@ -68,53 +84,6 @@ int    ft_printf(const char *format, ...)
     va_end(args);
     return (count);
 }
-
-static int    ft_putchar(char c)
-{
-    return (write(1, &c, 1));
-    return (1);
-}
-
-int    ft_putstr(char *c)
-{
-    int        i;
-
-    i = 0;
-    while (c[i] != '\0')
-      i++;
-    write(1, c, i);
-    return (i);
-}
-
-int put_nbr(int n)
-{
-  char num[10];
-  long int nl;
-  int i;
-  int resul;
-  
-  resul = 0;
-  nl = n;
-  i = -1;
-  if (nl == 0)
-    return (ft_putchar('0'));
-  if (nl < 0)
-  {
-    resul = ft_putchar('-');
-    nl *= -1;
-  }
-  while (nl % 10)
-  {
-    num[++i] = (nl % 10) + 48;
-    nl = nl / 10;
-    resul++;
-  }
-  while (i >= 0)
-    write(1, &num[i--], 1);
-  return (resul);  
-}
-
-
 
 int    main(void)
 {
