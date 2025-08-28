@@ -50,19 +50,26 @@ int putnbr_hexa(long int n, char *base, int div)
 int putnbr(long int n, char sinal)
 {
   int count;
+  unsigned int u;
   
   count = 0;
   if (sinal == 'u')
-    n = (unsigned int)n;
+  {
+    unsigned int u = (unsigned int)n;
+    if (u >= 10)
+      count += putnbr(u / 10, 'u');
+    count += ft_putchar((u % 10) + '0');
+    return count;
+  }
   if (n < 0)
   {
     count += ft_putchar('-');
-    n *= -1; 
+    n *= -1;
   }
-  if (n > 10)
-    count += putnbr((n/10), sinal);
+  if (n >= 10)
+    count += putnbr(n / 10, 'd');   
   count += ft_putchar((n % 10) + '0');
-return (count);    
+  return count;
 }
 
 int    ft_printf(const char *format, ...)
