@@ -32,7 +32,23 @@ static int    ft_putchar(char c)
     return (1);
 }
 
-int putnbr_hexa(long int n, char *base, int div)
+int putnbr_d_i(long int n)
+{
+  int count;
+   
+  count = 0; 
+  if (n < 0)
+  {
+    count += ft_putchar('-');
+    n *= -1;
+  }
+  if (n >= 10)
+    count += putnbr_d_i(n / 10);   
+  count += ft_putchar((n % 10) + '0');
+  return count;
+}
+
+int putnbr_u_x_X(long int n, char *base, int div)
 { 
   unsigned int hexa;
   int count;
@@ -40,34 +56,9 @@ int putnbr_hexa(long int n, char *base, int div)
   count = 0;
   hexa = (unsigned int)n; 
   if (hexa >= div)
-    count += putnbr_hexa((hexa / div), base, div); 
+    count += putnbr_u_x_X((hexa / div), base, div); 
   count += ft_putchar(base[hexa % div]);
   return (count);
-}
-
-int putnbr(long int n, char sinal)
-{
-  int count;
-  unsigned int u;
-  
-  count = 0;
-  if (sinal == 'u')
-  {
-    unsigned int u = (unsigned int)n;
-    if (u >= 10)
-      count += putnbr(u / 10, 'u');
-    count += ft_putchar((u % 10) + '0');
-    return count;
-  }
-  if (n < 0)
-  {
-    count += ft_putchar('-');
-    n *= -1;
-  }
-  if (n >= 10)
-    count += putnbr(n / 10, 'd');   
-  count += ft_putchar((n % 10) + '0');
-  return count;
 }
 
 int    ft_printf(const char *format, ...)
