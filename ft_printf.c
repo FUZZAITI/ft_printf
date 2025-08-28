@@ -18,30 +18,17 @@ int    ft_putstr(char *c);
 static int    ft_putchar(char c);
 
 
-int hexa(long long int n,char *base,int div)
-{
-  char c;
-  int temp;
+int putnbr_hexa(long int n, char *base, int div)
+{ 
+  unsigned int hexa;
   int count;
-  unsigned int hex;
   
-  hex = n;
-  if (div == 16)
-    hex = (unsigned int)n;
-  count = 0;    
-  if (hex < 0)
-  {
-    if (div == 10)
-      write (1, "-", 1);
-    count ++;
-    hex = -hex;
-  }
-  temp = hex % div;
-  c = base[temp];
-  if (hex >= div)
-    count += hexa(hex/div,base,div);
-  ft_putchar(c);
-  return(count);
+  count = 0;
+  hexa = (unsigned int)n; 
+  if (hexa >= div)
+    count += putnbr_hexa((hexa / div), base, div); 
+  count += ft_putchar(base[hexa % div]);
+  return (count);
 }
 
 int    ft_printf(const char *format, ...)
