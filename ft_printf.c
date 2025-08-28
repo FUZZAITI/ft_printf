@@ -47,6 +47,24 @@ int putnbr_hexa(long int n, char *base, int div)
   return (count);
 }
 
+int putnbr(long int n, char sinal)
+{
+  int count;
+  
+  count = 0;
+  if (sinal == 'u')
+    n = (unsigned int)n;
+  if (n < 0)
+  {
+    count += ft_putchar('-');
+    n *= -1; 
+  }
+  if (n > 10)
+    count += putnbr((n/10), sinal);
+  count += ft_putchar((n % 10) + '0');
+return (count);    
+}
+
 int    ft_printf(const char *format, ...)
 {
     va_list    args;
