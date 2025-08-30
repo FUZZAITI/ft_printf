@@ -57,17 +57,22 @@ int ft_format(char c, va_list args)
     if (c == 'c')
         return ft_putchar(va_arg(args, int));
     else if (c == 's')
-        return ft_putstr(va_arg(args, char *));
+        return (ft_putstr(va_arg(args, char *)));
     else if (c == '%')
-        return ft_putchar('%');
+        return (ft_putchar('%'));
     else if (c == 'd' || c == 'i')
-        return putnbr_d_i(va_arg(args, int), "0123456789", 10);
+        return (putnbr_d_i(va_arg(args, int), "0123456789", 10));
     else if (c == 'x')
-        return putnbr_d_i(va_arg(args, unsigned int), "0123456789abcdef", 16);
+        return (putnbr_d_i(va_arg(args, unsigned int), "0123456789abcdef", 16));
     else if (c == 'X')
-        return putnbr_d_i(va_arg(args, unsigned int), "0123456789ABCDEF", 16);
+        return (putnbr_d_i(va_arg(args, unsigned int), "0123456789ABCDEF", 16));
     else if (c == 'u')
-        return putnbr_d_i(va_arg(args, unsigned int), "0123456789", 10);
+        return (putnbr_d_i(va_arg(args, unsigned int), "0123456789", 10));
+    else if (c == 'p')
+      {
+        ft_putstr("0x");
+        return (putnbr_d_i(va_arg(args, unsigned int), "0123456789abcdef", 16) + 2);
+      }
     return (0);
 }
 
