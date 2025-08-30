@@ -36,7 +36,7 @@ static int    ft_putchar(char c)
     return (1);
 }
 
-int putnbr_d_i(long int n)
+int putnbr_d_i(long int n, char *base, int div)
 {
   int count;
    
@@ -46,22 +46,9 @@ int putnbr_d_i(long int n)
     count += ft_putchar('-');
     n *= -1;
   }
-  if (n >= 10)
-    count += putnbr_d_i(n / 10);   
-  count += ft_putchar((n % 10) + '0');
-  return count;
-}
-
-int putnbr_u_x_X(long int n, char *base, int div)
-{ 
-  unsigned int hexa;
-  int count;
-  
-  count = 0;
-  hexa = (unsigned int)n; 
-  if (hexa >= div)
-    count += putnbr_u_x_X((hexa / div), base, div); 
-  count += ft_putchar(base[hexa % div]);
+  if (n >= div)
+    count += putnbr_d_i((n / div), base, div); 
+  count += ft_putchar(base[n % div]);
   return (count);
 }
 
@@ -74,13 +61,13 @@ int ft_format(char c, va_list args)
     else if (c == '%')
         return ft_putchar('%');
     else if (c == 'd' || c == 'i')
-        return putnbr_d_i(va_arg(args, int));
+        return putnbr_d_i(va_arg(args, int), "0123456789", 10);
     else if (c == 'x')
-        return hexa(va_arg(args, int), "0123456789abcdef", 16);
+        return putnbr_d_i(va_arg(args, unsigned int), "0123456789abcdef", 16);
     else if (c == 'X')
-        return hexa(va_arg(args, int), "0123456789ABCDEF", 16);
+        return putnbr_d_i(va_arg(args, unsigned int), "0123456789ABCDEF", 16);
     else if (c == 'u')
-        return hexa(va_arg(args, unsigned int), "0123456789", 10);
+        return putnbr_d_i(va_arg(args, unsigned int), "0123456789", 10);
     return (0);
 }
 
@@ -111,7 +98,7 @@ int    main(void)
     int x = 0;
     int y = 0;
     
-    x = ft_printf("%s %d \n","oi", -2555);
-    y = printf("%s %i \n","oi", -2555);
+    x = ft_printf("%u %X %i \n", 0, -12, -5);
+    y = printf("%u %X %i \n", 0, -12, -5);
     return (0);
 }
