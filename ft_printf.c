@@ -30,7 +30,7 @@ int    ft_putstr(char *c)
     return (i);
 }
 
-static int    ft_putchar(char c)
+int    ft_putchar(char c)
 {
     return (write(1, &c, 1));
     return (1);
@@ -81,6 +81,8 @@ int ft_printf(const char *format, ...)
     va_list args;
     int count;
 
+	if (!str)
+		return (-1);
     count = 0;
     va_start(args, format);
     while (*format)
