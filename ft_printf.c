@@ -42,7 +42,7 @@ int    ft_putchar(char c)
 	return (1);
 }
 
-int ft_format(char c, va_list args)
+int ft_look(char c, va_list args)
 {
 	if (c == 'c')
 		return ft_putchar(va_arg(args, int));
@@ -68,6 +68,8 @@ int ft_printf(const char *format, ...)
 	va_list args;
 	int count;
 
+	if (!format)
+		return (-1);
 	count = 0;
 	va_start(args, format);
 	while (*format)
@@ -75,7 +77,7 @@ int ft_printf(const char *format, ...)
 		if (*format == '%')
 		{
 			format++;
-			count += ft_format(*format, args);
+			count += ft_look(*format, args);
 		}
 		else
 			count += ft_putchar(*format);
