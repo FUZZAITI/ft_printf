@@ -13,8 +13,12 @@
 # include <stdarg.h>
 # include <unistd.h>
 
-int put_nbr(int n);
+int    ft_putstr(char *c);
+int    ft_putchar(char c);
+int ft_format(char c, va_list args);
+int ft_printf(const char *format, ...);
 int putnbr_d_i(long int n, char *base, int div);
+int put_nbr(int n);
 int put_pointer(void *ptr);
 
 int    ft_putstr(char *c)
