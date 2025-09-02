@@ -6,7 +6,7 @@
 /*   By: pepinhei <pepinhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 09:56:24 by pepinhei          #+#    #+#             */
-/*   Updated: 2025/09/02 11:25:42 by pepinhei         ###   ########.fr       */
+/*   Updated: 2025/09/02 14:03:35 by pepinhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	ft_format(char c, va_list args);
 int	ft_printf(const char *format, ...);
 int	putnbr_d_i(long int n, char *base, int div);
 int	put_nbr(int n);
-int	put_pointer(void *ptr);
+int	put_pointer(unsigned long ptr);
+int	pre_point(void *ptr);
 
 #endif

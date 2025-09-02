@@ -6,7 +6,7 @@
 /*   By: pepinhei <pepinhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 09:39:32 by pepinhei          #+#    #+#             */
-/*   Updated: 2025/09/02 13:18:02 by pepinhei         ###   ########.fr       */
+/*   Updated: 2025/09/02 14:04:09 by pepinhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_look(char c, va_list args)
 	else if (c == 'u')
 		return (putnbr_d_i(va_arg(args, unsigned int), "0123456789", 10));
 	else if (c == 'p')
-		return (put_pointer(va_arg(args, void *)));
+		return (pre_point(va_arg(args, void *)));
 	return (0);
 }
 

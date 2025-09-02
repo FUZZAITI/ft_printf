@@ -6,7 +6,7 @@
 /*   By: pepinhei <pepinhei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:04:02 by pepinhei          #+#    #+#             */
-/*   Updated: 2025/09/02 11:46:57 by pepinhei         ###   ########.fr       */
+/*   Updated: 2025/09/02 14:07:18 by pepinhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,35 @@ int	put_nbr(int n)
 	return (count);
 }
 
-int	put_pointer(void *ptr)
+int	put_pointer(unsigned long ptr)
 {
 	unsigned long long	addr;
 	int					count;
+	char				*base;
+	unsigned long long	div;
 
+	count = 0;
+	div = 16;
+	base = "0123456789abcdef";
 	if (!ptr)
 		return (write(1, "(nil)", 5));
 	addr = (unsigned long long)ptr;
-	write(1, "0x", 2);
-	count = 2;
-	count += putnbr_d_i(addr, "0123456789abcdef", 16);
+	if (addr >= div)
+		count += put_pointer(addr / div);
+	count += ft_putchar(base[addr % div]);
+	return (count);
+}
+
+int	pre_point(void *ptr)
+{
+	unsigned long long		n;
+	int						count;
+
+	n = (unsigned long long)ptr;
+	count = 0;
+	if (ptr == 0)
+		return (count += write(1, "(nil)", 5));
+	count += write(1, "0x", 2);
+	count += (put_pointer(n));
 	return (count);
 }
